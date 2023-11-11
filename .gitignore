@@ -1,0 +1,12 @@
+# Archivos generados automáticamente
+*.DS_Store
+Thumbs.db
+
+# Archivos de configuración
+settings.py
+
+# Archivos de datos
+db.sqlite3
+media
+
+venv
