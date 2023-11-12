@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from Curso.models import Curso
 from .models import Alumno
 # Create your views here.
 def home(request):
@@ -11,7 +12,9 @@ def registrarAlumno(request):
     DNI = request.POST['DNI']
     telefono = request.POST['telefono']
     email = request.POST['email']
-    curso = request.POST['curso']
+    cursoid = request.POST['curso']
+    curso = Curso.objects.get(id = cursoid)
+    
     nuevoAlumno = Alumno.objects.create(
         DNI = DNI,
         nombre = nombre,
