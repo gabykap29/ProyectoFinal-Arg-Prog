@@ -27,5 +27,5 @@ def eliminarAlumno(request, DNI):
 
 def editarAlumno(request, DNI):
     alumno = Alumno.objects.get(DNI = DNI)
-    return render(request, 'editarAlumno.html', {'alumno':alumno})
+    return render(request, 'editarAlumnos.html', {'alumno':alumno})
 

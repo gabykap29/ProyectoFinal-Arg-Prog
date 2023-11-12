@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>Title</title>
@@ -58,84 +58,48 @@
       </header>
   <main>
     <div class="container">
-        <div class="row">
-            <div class="col-sm-4 ">
+        <div class="d-flex justify-content-center">
+            <div class="col-8 ">
                 <div class="card text-start shadow">
                     <div class="card-header text-bg-dark">
-                        <h5>Agregar Alumnos</h5>
+                        <h5>Editar Alumnos</h5>
                     </div>
                   <div class="card-body m-3">
                     <form class="row g-3 needs-validation" action="/registrarAlumno/" method='POST'> {% csrf_token %} <!--Protege al codigo de actividades malisiosas-->
                         <div class="col-md-4">
-                          <label for="validationCustom01" class="form-label">Nombres</label>
-                          <input type="text" class="form-control" id="nombre" name="nombre" value="Mark" required>
+                          <label for="validationCustom01" class="form-label">Nombre</label>
+                          <input type="text" class="form-control" id="nombre" name="nombre" value={{alumno.nombre}} required>
                         </div>
                         <div class="col-md-4">
                           <label for="validationCustom02" class="form-label">Apellidos</label>
-                          <input type="text" class="form-control" id="Apellidos" name="Apellidos" value="Otto" required>
+                          <input type="text" class="form-control" id="Apellidos" name={{alumno.apellidos}} value="Otto" required>
                         </div>
                         <div class="col-md-4">
-                          <label for="validationCustomUsername" class="form-label">DNI</label>
+                          <label for="validationCustomUsername" class="form-label">dni</label>
                           <div class="input-group has-validation">
-                            <input type="number" class="form-control" id="DNI" name="DNI" aria-describedby="inputGroupPrepend" required>
+                            <input type="number" class="form-control" id="DNI" name="DNI" value={{alumno.DNI}} aria-describedby="inputGroupPrepend" required>
                           </div>
                         </div>
                         <div class="col-md-3">
-                          <label for="validationCustom03" class="form-label">Telefono</label>
-                          <input type="text" class="form-control" id="telefono" name="telefono" required>
+                          <label for="validationCustom03" class="form-label">telefono</label>
+                          <input type="text" class="form-control" id="telefono" name="telefono" value={{alumno.telefono}} required>
                         </div>
                         <div class="col-md-3">
                           <label for="validationCustom04" class="form-label">Correo</label>
-                          <input type="email" class="form-control" id="email" name='email' required>
+                          <input type="email" class="form-control" id="email" name='email' value={{alumno.email}} required>
                         </div>
                         <div class="col-md-6">
                           <label for="validationCustom05" class="form-label">Curso</label>
-                          <input type="text" class="form-control" id="curso" name="curso" required>
+                          <input type="text" class="form-control" id="curso" name="curso" value={{alumno.curso}} required>
                         </div>
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Cargar</button>
+                            <button class="btn btn-success" type="submit">Editar</button>
                             <button class="btn btn-secondary" type="reset">Borrar campos</button>
                           </div>
                         </div>
 
                       </form>
                   </div>
-                </div>
-                <div class="col-8">
-                    <div class="card shadow">
-                        <div class="card-header text-bg-dark">
-                            <h4>Alumnos</h4>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Dni</th>
-                                        <th scope="col">Nombres</th>
-                                        <th scope="col">Apellidos</th>
-                                        <th scope="col">telefono</th>
-                                        <th scope="col">email</th>
-                                        <th scope="col">Curso</th>
-                                        <th colspan="" >Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {%for i in Alumnos%}
-                                    <tr>
-                                        <th scope="row">{{i.DNI}}</th>
-                                        <td>{{i.nombre}}</td>
-                                        <td>{{i.apellidos}}</td>
-                                        <td>{{i.telefono}}</td>
-                                        <td>{{i.email}}</td>
-                                        <td>{{i.curso}}</td>
-                                        <td><a href="editarAlumnos/{{i.DNI}}" class="btn btn-info">Editar</a></td>
-                                        <td><a href="eliminarAlumno/{{i.DNI}}" class="btn btn-danger">Eliminar</a></td>
-                                    </tr>
-                                    {%endfor%}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
                 
             </div>
@@ -146,6 +110,8 @@
   <footer>
     <!-- place footer here -->
   </footer>
+
+
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
