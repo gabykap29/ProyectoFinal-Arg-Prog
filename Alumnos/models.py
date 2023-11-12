@@ -9,7 +9,7 @@ class Alumno(models.Model):
     apellidos = models.CharField(max_length=50)
     email = models.EmailField( blank=True, null=True, default='No asignado')
     telefono= models.CharField(max_length=9, blank=True, null=True, default='No asignado')
-    curso = models.ForeignKey(Curso, on_delete=models.CASCADE, default=1)
+    cursoid = models.ForeignKey(Curso, on_delete=models.CASCADE, default=1)
     #funcion para mostrar texto al crear o al actualizar
     def __str__(self):
         texto = "{0} ({1})"

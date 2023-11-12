@@ -23,6 +23,7 @@
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li><a href="/" class="nav-link px-2 link-secondary">Alumnos</a></li>
+              <li><a href="/asignarCursos/" class="nav-link px-2 link-secondary">Asignar cursos</a></li>
               <li><a href="/cursos/" class="nav-link px-2 link-body-emphasis">Cursos</a></li>
               <li><a href="/bandasHorarias/" class="nav-link px-2 link-body-emphasis">Horarios</a></li>
             </ul>
@@ -35,13 +36,6 @@
               <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
               </a>
-              <ul class="dropdown-menu text-small">
-                <li><a class="dropdown-item" href="#">New project...</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
-              </ul>
             </div>
           </div>
         </div>
@@ -58,25 +52,29 @@
       <main>
         <div class="container">
             <div class="row">
-                <div class="col-sm-4 ">
+                <div class="col-6 ">
                     <div class="card text-start shadow">
                         <div class="card-header text-bg-dark">
                             <h5>Agregar Curso</h5>
                         </div>
                       <div class="card-body m-3">
-                        <form class="row g-3 needs-validation" action="/registrarAlumno/" method='POST'> {% csrf_token %} <!--Protege al codigo de actividades malisiosas-->
+                        <form class="row g-3 needs-validation" action="/agregarCursos/" method='POST'> {% csrf_token %} <!--Protege al codigo de actividades malisiosas-->
                             <div class="col-md-4">
                               <label for="validationCustom01" class="form-label">Nombres</label>
-                              <input type="text" class="form-control" id="nombre" name="nombre" value="Mark" required>
+                              <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Programación" required>
                             </div>
                             <div class="col-md-4">
-                              <label for="validationCustom02" class="form-label">Apellidos</label>
-                              <input type="text" class="form-control" id="Apellidos" name="Apellidos" value="Otto" required>
+                              <label for="validationCustom02" class="form-label">Descripcion</label>
+                              <input type="text" class="form-control" id="descripcion" name="descripcion" value="Otto" required>
                             </div>
-                            <div class="col-md-4">
-                              <label for="validationCustomUsername" class="form-label">DNI</label>
+                            <div class="col-4">
+                              <label for="validationCustomUsername" class="form-label">Banda Horaria</label>
                               <div class="input-group has-validation">
-                                <input type="number" class="form-control" id="DNI" name="DNI" aria-describedby="inputGroupPrepend" required>
+                                <select class="form-select" id='bandaHoraria' name='bandaHoraria'>
+                                  {% for i in bandasHorarias%}
+                                  <option value={{i.idBanda}}>{{i.nombre}} {{ i.horaInicio }} - {{i.horaFinal}}</option>
+                                  {%endfor%}
+                                </select>
                               </div>
                             </div>
                             <div class="col-12">
@@ -88,18 +86,19 @@
                           </form>
                       </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col-6">
                         <div class="card shadow">
                             <div class="card-header text-bg-dark">
-                                <h4>Alumnos</h4>
+                                <h4>Cursos</h4>
                             </div>
                             <div class="card-body">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Dni</th>
+                                            <th scope="col">#</th>
                                             <th scope="col">Nombres</th>
-                                            <th scope="col">Apellidos</th>
+                                            <th scope="col">Descripción</th>
+                                            <th scope=2>Horarios</th>
                                             <th colspan="" >Acciones</th>
                                         </tr>
                                     </thead>
@@ -109,8 +108,11 @@
                                             <th scope="row">{{i.idCurso}}</th>
                                             <td>{{i.nombre}}</td>
                                             <td>{{i.descripcion}}</td>
-                                            <td>{{i.bandaHoraria}}</td>
-
+                                            <td >{{i.bandaHoraria.horaInicio}} {{i.bandaHoraria.horaFinal}}</td>
+                                            <td>
+                                              <a href="/alumnosPorCurso/{{ i.idCurso }}/" class="btn btn-warning">Matriculados</a>
+                                            </td>
+                                          
                                         </tr>
                                         {%endfor%}
                                     </tbody>

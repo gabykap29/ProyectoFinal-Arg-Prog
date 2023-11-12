@@ -62,41 +62,25 @@
             <div class="col-8 ">
                 <div class="card text-start shadow">
                     <div class="card-header text-bg-dark">
-                        <h5>Editar Alumnos</h5>
+                        <h5>Asignar un curso a un alumno</h5>
                     </div>
+                    <span class="m-2 " style="color:red">Nota: Para asignar un curso a un alumno, debe existir cursos en base de datos!</span>
                   <div class="card-body m-3">
-                    <form class="row g-3 needs-validation" action="/guardarEdicion/" method='POST'> {% csrf_token %} <!--Protege al codigo de actividades malisiosas-->
+                    
+                    <form class="row g-3 needs-validation" action="/asignarCursosAlumno/" method='POST'> {% csrf_token %} <!--Protege al codigo de actividades malisiosas-->
                         <div class="col-md-4">
-                          <label for="validationCustom01" class="form-label">Nombre</label>
-                          <input type="text" class="form-control" id="nombre" name="nombre" value={{alumno.nombre}} required>
-                        </div>
-                        <div class="col-md-4">
-                          <label for="validationCustom02" class="form-label">Apellidos</label>
-                          <input type="text" class="form-control" id="Apellidos" name='Apellidos' value={{alumno.apellidos}} required>
+                          <label for="validationCustom01" class="form-label">DNI</label>
+                          <input type="number" class="form-control" id="DNI" name="DNI" required>
                         </div>
                         <div class="col-md-4">
-                          <label for="validationCustomUsername" class="form-label">dni</label>
-                          <div class="input-group has-validation">
-                            <input type="number" class="form-control" id="DNI" name="DNI" value={{alumno.DNI}} aria-describedby="inputGroupPrepend" required>
-                          </div>
+                            <label for="validationCustom01" class="form-label">Cursos</label>
+                            <select class="form-select " id="cursoid" name="cursoid" required>
+                                <option disabled selected>Elija un curso</option>
+                                {% for i in cursos%}
+                                <option value={{i.idCurso}}>{{i.nombre}}</option>
+                                {%endfor%}
+                            </select>
                         </div>
-                        <div class="col-md-3">
-                          <label for="validationCustom03" class="form-label">telefono</label>
-                          <input type="text" class="form-control" id="telefono" name="telefono" value={{alumno.telefono}} required>
-                        </div>
-                        <div class="col-md-3">
-                          <label for="validationCustom04" class="form-label">Correo</label>
-                          <input type="email" class="form-control" id="email" name='email' value={{alumno.email}} required>
-                        </div>
-                        <div class="col-md-4">
-                          <label for="validationCustom01" class="form-label">Cursos</label>
-                          <select class="form-select " id="cursoid" name='cursoid' required>
-                              <option disabled selected>Elija un curso</option>
-                              {% for i in cursos%}
-                              <option value={{i.idCurso}}>{{i.nombre}}</option>
-                              {%endfor%}
-                          </select>
-                      </div>
                         <div class="col-12">
                             <button class="btn btn-success" type="submit">Editar</button>
                             <button class="btn btn-secondary" type="reset">Borrar campos</button>

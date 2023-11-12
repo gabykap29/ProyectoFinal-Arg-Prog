@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <head>
   <title>Title</title>
@@ -52,57 +52,10 @@
   <main>
     <div class="container">
         <div class="row">
-            <div class="col-sm-4 ">
-                <div class="card text-start shadow">
-                    <div class="card-header text-bg-dark">
-                        <h5>Agregar Alumnos</h5>
-                    </div>
-                  <div class="card-body m-3">
-                    <form class="row g-3 needs-validation" action="/registrarAlumno/" method='POST'> {% csrf_token %} <!--Protege al codigo de actividades malisiosas-->
-                        <div class="col-md-4">
-                          <label for="validationCustom01" class="form-label">Nombres</label>
-                          <input type="text" class="form-control" id="nombre" name="nombre" value="Mark" required>
-                        </div>
-                        <div class="col-md-4">
-                          <label for="validationCustom02" class="form-label">Apellidos</label>
-                          <input type="text" class="form-control" id="Apellidos" name="Apellidos" value="Otto" required>
-                        </div>
-                        <div class="col-md-4">
-                          <label for="validationCustomUsername" class="form-label">DNI</label>
-                          <div class="input-group has-validation">
-                            <input type="number" class="form-control" id="DNI" name="DNI" aria-describedby="inputGroupPrepend" required>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <label for="validationCustom03" class="form-label">Telefono</label>
-                          <input type="text" class="form-control" id="telefono" name="telefono" required>
-                        </div>
-                        <div class="col-md-3">
-                          <label for="validationCustom04" class="form-label">Correo</label>
-                          <input type="email" class="form-control" id="email" name='email' required>
-                        </div>
-                        <div class="col-md-4">
-                          <label for="validationCustom01" class="form-label">Cursos</label>
-                          <select class="form-select " id="cursoid" name='cursoid' required>
-                              <option disabled selected>Elija un curso</option>
-                              {% for i in cursos%}
-                              <option value={{i.idCurso}}>{{i.nombre}}</option>
-                              {%endfor%}
-                          </select>
-                      </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary" type="submit">Cargar</button>
-                            <button class="btn btn-secondary" type="reset">Borrar campos</button>
-                          </div>
-                        </div>
-
-                      </form>
-                  </div>
-                </div>
-                <div class="col-8">
+                <div class="col-10">
                     <div class="card shadow">
                         <div class="card-header text-bg-dark">
-                            <h4>Alumnos</h4>
+                            <h4>Alumnos del curso {{curso.nombre}}</h4>
                         </div>
                         <div class="card-body">
                             <table class="table">
@@ -117,19 +70,8 @@
                                         <th colspan="" >Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    {%for i in Alumnos%}
-                                    <tr>
-                                        <th scope="row">{{i.DNI}}</th>
-                                        <td>{{i.nombre}}</td>
-                                        <td>{{i.apellidos}}</td>
-                                        <td>{{i.telefono}}</td>
-                                        <td>{{i.email}}</td>
-                                        <td>{{i.cursoid.nombre}}</td>
-                                        <td><a href="editarAlumnos/{{i.DNI}}" class="btn btn-info">Editar</a></td>
-                                        <td><a href="eliminarAlumno/{{i.DNI}}" class="btn btn-danger">Eliminar</a></td>
-                                    </tr>
-                                    {%endfor%}
+                                <tbody id="registros">
+
                                 </tbody>
                             </table>
                         </div>
@@ -151,6 +93,54 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+  <script>
+
+    const registros = document.getElementById('registros')
+
+    const obtenerAlumnos = async ()=> {
+        const url = window.location.href;
+        const parts = url.split('/');
+        const id = parts[parts.length - 2];
+        const res = await fetch(`/api/alumnosPorCurso/${id}/`);
+        console.log(`/api/alumnosPorCurso/${id}/`)
+        console.log(res)
+
+        const data = await res.json();
+        return data;
+    };
+
+    const mostrarAlumnos = async(alumnos) =>{
+
+        if(alumnos.length == 0 ){
+            registros.innerHTML += `<td>No hay alummnos Matriculados!</td>`
+            return
+        };
+        console.log(alumnos)
+
+        alumnos.forEach((alumno) => {
+            registros.innerHTML += `
+                <tr>
+                    <th scope="row">${alumno.DNI}</th>
+                    <td>${alumno.nombre}</td>
+                    <td>${alumno.apellidos}</td>
+                    <td>${alumno.telefono}</td>
+                    <td>${alumno.email}</td>
+                    <td>${alumno.cursoid ? alumno.cursoid.nombre : 'No asignado'}</td>
+                    <td><a href="editarAlumnos/${alumno.DNI}" class="btn btn-info">Editar</a></td>
+                    <td><a href="eliminarAlumno/${alumno.DNI}" class="btn btn-danger">Eliminar</a></td>
+                </tr>
+            `;
+        });
+
+    } 
+
+    document.addEventListener('DOMContentLoaded', async()=>{
+        const alumnos = await obtenerAlumnos();
+        mostrarAlumnos(alumnos)
+    });
+
+
   </script>
 </body>
 
