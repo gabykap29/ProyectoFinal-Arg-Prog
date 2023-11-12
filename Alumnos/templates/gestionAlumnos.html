@@ -101,7 +101,7 @@
                       </form>
                   </div>
                 </div>
-                <div class="col-sm-7">
+                <div class="col-8">
                     <div class="card shadow">
                         <div class="card-header text-bg-dark">
                             <h4>Alumnos</h4>
@@ -116,6 +116,7 @@
                                         <th scope="col">telefono</th>
                                         <th scope="col">email</th>
                                         <th scope="col">Curso</th>
+                                        <th colspan="" >Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -127,6 +128,8 @@
                                         <td>{{i.telefono}}</td>
                                         <td>{{i.email}}</td>
                                         <td>{{i.curso}}</td>
+                                        <td><a href="editarAlumno/{{i.DNI}}" class="btn btn-info">Editar</a></td>
+                                        <td><a href="eliminarAlumno/{{i.DNI}}" class="btn btn-danger">Eliminar</a></td>
                                     </tr>
                                     {%endfor%}
                                 </tbody>

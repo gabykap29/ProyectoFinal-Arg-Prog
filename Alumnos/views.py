@@ -21,3 +21,11 @@ def registrarAlumno(request):
         curso=curso
     )
     return redirect('/')
+def eliminarAlumno(request, DNI):
+    Alumno.objects.filter(DNI = DNI).delete()
+    return redirect('/')
+
+def editarAlumno(request, DNI):
+    alumno = Alumno.objects.get(DNI = DNI)
+    return render(request, 'editarAlumno.html', {'alumno':alumno})
+
