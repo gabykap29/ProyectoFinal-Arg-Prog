@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>Title</title>
+  <title>Proyecto Final python-Django</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -91,7 +91,7 @@
                         <div class="col-md-4">
                           <label for="validationCustom01" class="form-label">Cursos</label>
                           <select class="form-select " id="cursoid" name='cursoid' required>
-                              <option disabled selected>Elija un curso</option>
+                              <option disabled>Elija un curso</option>
                               {% for i in cursos%}
                               <option value={{i.idCurso}}>{{i.nombre}}</option>
                               {%endfor%}

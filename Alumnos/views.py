@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from Curso.models import Curso
 from django.http import JsonResponse
 from .models import Alumno
+import csv
+from django.http import HttpResponse
 # Create your views here.
 def home(request):
     Alumnos = Alumno.objects.all()
@@ -102,3 +104,41 @@ def alumnos_por_curso(request, cursoid):
 
 def alumnosPorCurso(request,cursoid):
     return render(request, 'alumnosCursos.html')
+
+
+#funcion para cargar alumnos desde un csv
+
+def cargar_alumnos_desde_csv(request):
+    if request.method == 'POST' and request.FILES['archivo_csv']:
+        archivo_csv = request.FILES['archivo_csv']
+
+        # Verifica que el archivo sea CSV
+        if not archivo_csv.name.endswith('.csv'):
+            return HttpResponse('Por favor, sube un archivo CSV.')
+
+        # Lee el contenido del archivo y decodifica
+        archivo_decodificado = archivo_csv.read().decode('utf-8').splitlines()
+
+        # Lee el archivo CSV y crea instancias de alumnos
+        try:
+            csv_reader = csv.DictReader(archivo_decodificado)
+            for row in csv_reader:
+                if 'cursoid' in row:
+                    cursoid = row['cursoid']
+                else:
+                    cursoid = None  # O el valor predeterminado que prefieras
+
+                _, created = Alumno.objects.update_or_create(
+                    DNI=row['DNI'],
+                    defaults={
+                        'nombre': row['nombre'],
+                        'apellidos': row['apellidos'],
+                        'email': row['email'],
+                        'telefono': row['telefono'],
+                        'cursoid': Curso.objects.get(idCurso=int(row['cursoid'])),  # Convierte a entero porque tenia un problema que tomaba como strings
+                    }
+                )
+        except Exception as e:
+            return HttpResponse(f'Error al procesar el archivo CSV: {str(e)}')
+        redirect('/')
+        return HttpResponse('Alumnos cargados exitosamente.')

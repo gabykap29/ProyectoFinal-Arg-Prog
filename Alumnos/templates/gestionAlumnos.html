@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Title</title>
+  <title>Proyecto Final python-Django</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -137,6 +137,27 @@
                 </div>
                 
             </div>
+
+        <div class="card col-sm-4 mt-3 shadow" >
+
+          <div class="card-header bg-dark text-bg-dark">
+            <h4>Cargar desde un excel</h4>
+          </div>
+          <div class="card-body">
+            <form class="row" action="/cargarAlumnos/" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form.as_p }}  
+              
+              <div class="col">
+                  <label for="id_archivo_csv" class="form-label">Inserte el archivo csv con los Alumnos</label>
+                  <input type="file" name="archivo_csv" class="form-control">
+                  {{ form.archivo_csv }}
+              </div>
+          
+              <button class="btn btn-primary mt-2 col-12" type="submit">Subir</button>
+          </form>
+          
+          </div>
 
         </div>
     </div>
